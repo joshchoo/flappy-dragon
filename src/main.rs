@@ -12,14 +12,32 @@ impl State {
         }
     }
 
-    // TODO: 2021-05-21 implement
-    fn main_menu(&self, ctx: &mut BTerm) {}
+    fn main_menu(&mut self, ctx: &mut BTerm) {
+        ctx.cls();
+        ctx.print_centered(5, "Welcome to Flappy Dragon");
+        ctx.print_centered(8, "(P) Play Game");
+        ctx.print_centered(9, "(Q) Quit Game");
+
+        if let Some(key) = ctx.key {
+            match key {
+                VirtualKeyCode::P => self.restart(),
+                VirtualKeyCode::Q => ctx.quitting = true,
+                _ => {}
+            }
+        }
+    }
 
     // TODO: 2021-05-21 implement
-    fn play(&self, ctx: &mut BTerm) {}
+    fn play(&mut self, _ctx: &mut BTerm) {
+        self.mode = GameMode::End;
+    }
 
     // TODO: 2021-05-21 implement
-    fn dead(&self, ctx: &mut BTerm) {}
+    fn dead(&self, _ctx: &mut BTerm) {}
+
+    fn restart(&mut self) {
+        self.mode = GameMode::Playing;
+    }
 }
 
 /// The GameMode state machine
