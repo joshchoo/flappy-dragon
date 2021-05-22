@@ -35,9 +35,21 @@ impl State {
         }
     }
 
-    // TODO: 2021-05-21 implement
-    fn play(&mut self, _ctx: &mut BTerm) {
-        self.mode = GameMode::End;
+    fn play(&mut self, ctx: &mut BTerm) {
+        ctx.cls_bg(NAVY);
+        self.frame_time += ctx.frame_time_ms;
+        if self.frame_time > FRAME_DURATION {
+            self.frame_time = 0.0;
+            self.player.gravity_and_move();
+        }
+        if let Some(VirtualKeyCode::Space) = ctx.key {
+            self.player.flap();
+        }
+        self.player.render(ctx);
+        ctx.print(0, 0, "Press SPACE to flap.");
+        if self.player.y > SCREEN_HEIGHT {
+            self.mode = GameMode::End;
+        }
     }
 
     // TODO: 2021-05-21 implement
