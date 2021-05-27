@@ -64,10 +64,17 @@ impl State {
         }
     }
 
-    fn dead(&self, ctx: &mut BTerm) {
+    fn dead(&mut self, ctx: &mut BTerm) {
         ctx.cls();
         ctx.print_centered(5, "You are dead!");
         ctx.print_centered(6, &format!("You earned {} points", self.score));
+        ctx.print_centered(8, "(P) Play again");
+
+        if let Some(key) = ctx.key {
+            if key == VirtualKeyCode::P {
+                self.restart()
+            }
+        }
     }
 
     fn restart(&mut self) {
