@@ -64,13 +64,18 @@ impl State {
         }
     }
 
-    // TODO: 2021-05-21 implement
-    fn dead(&self, _ctx: &mut BTerm) {}
+    fn dead(&self, ctx: &mut BTerm) {
+        ctx.cls();
+        ctx.print_centered(5, "You are dead!");
+        ctx.print_centered(6, &format!("You earned {} points", self.score));
+    }
 
     fn restart(&mut self) {
         self.player = Player::new(5, 25);
         self.frame_time = 0.0;
+        self.obstacle = Obstacle::new(SCREEN_WIDTH, 0);
         self.mode = GameMode::Playing;
+        self.score = 0;
     }
 }
 
